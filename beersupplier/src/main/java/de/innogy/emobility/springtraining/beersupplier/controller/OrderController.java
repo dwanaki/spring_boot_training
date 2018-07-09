@@ -15,7 +15,8 @@ import javax.validation.Valid;
 public class OrderController {
     @Autowired
     private BeerService beerService;
-    
+
+    // TODO Aufgabe 3.2: RabbitService einbinden und DeliveryDTO per RabbitService verschicken
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public DeliveryDTO placeOrder(@Valid @RequestBody OrderDTO order) throws NotInStockException {
         String beerName = order.getBeerName();

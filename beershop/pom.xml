@@ -11,6 +11,8 @@
 
     <artifactId>beerItem-shop</artifactId>
 
+    <!-- TODO Aufgabe 3.1: Dependecy für spring-boot-starter-amqp hinzufügen-->
+    <!-- TODO Aufgabe 3.2: Dependecy für spring-boot-starter-json hinzufügen-->
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

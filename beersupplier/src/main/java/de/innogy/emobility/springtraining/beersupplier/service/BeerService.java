@@ -19,6 +19,8 @@ public class BeerService {
 
     private BeerRepository beerRepository;
 
+    // TODO Aufgabe 3.3: RabbitService einbinden
+
     @Autowired
     public BeerService(BeerRepository beerRepository) {
         this.beerRepository = beerRepository;
@@ -56,6 +58,7 @@ public class BeerService {
         log.info(beer.getName() + " was added to stock.");
     }
 
+    // TODO Aufgabe 3.3: Entferntes Bier per Service an FanoutExchange verschicken
     public void removeBeer(String beerName) throws NotInStockException {
         Beer removedBeer = beerRepository.findById(beerName).orElse(null);
         if(removedBeer == null){
