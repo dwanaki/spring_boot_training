@@ -49,6 +49,7 @@ public class SupplyService {
         beerItemRepository.saveAll(Arrays.asList(beerItems));
     }
 
+    // Anzahl an Beer wird nicht länger hier erhöht.
     public void fillSupplyWith(BeerItem beerItem) {
         storeOutgoingOrder(beerItem.getName(), 1000);
         restTemplate.postForObject(beerProducerOrderUrl, new OrderDTO(clientName, 1000, beerItem.getName()),
