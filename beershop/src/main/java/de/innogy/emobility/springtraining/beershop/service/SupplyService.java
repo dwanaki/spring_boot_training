@@ -6,6 +6,7 @@ import de.innogy.emobility.springtraining.beershop.exception.OutOfBeerException;
 import de.innogy.emobility.springtraining.beershop.exception.SorryAlcoholicOnlyDudeException;
 import de.innogy.emobility.springtraining.beershop.model.BeerItem;
 import de.innogy.emobility.springtraining.beershop.repository.BeerItemRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PostConstruct;
 import java.util.*;
 
+@Slf4j
 @Service
 public class SupplyService {
 
@@ -52,8 +54,12 @@ public class SupplyService {
     // Anzahl an Beer wird nicht länger hier erhöht.
     public void fillSupplyWith(BeerItem beerItem) {
         storeOutgoingOrder(beerItem.getName(), 1000);
-        restTemplate.postForObject(beerProducerOrderUrl, new OrderDTO(clientName, 1000, beerItem.getName()),
-                                   DeliveryDTO.class);
+        try {
+            restTemplate.postForObject(beerProducerOrderUrl, new OrderDTO(clientName, 1000, beerItem.getName()),
+                                       DeliveryDTO.class);
+        } catch (Exception e) {
+            log.error("Eception occured", e);
+        }
     }
 
     public DeliveryDTO orderBeer(OrderDTO orderDTO) throws OutOfBeerException {

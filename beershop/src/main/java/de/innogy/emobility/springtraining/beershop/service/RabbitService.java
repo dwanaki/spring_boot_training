@@ -1,12 +1,12 @@
 package de.innogy.emobility.springtraining.beershop.service;
 
-//TODO Aufgabe 3.1: Als Service Bean annotieren
+//TODO lesson 3.1: make it a service bean
 public class RabbitService {
 
-    //TODO Aufgabe 3.1: String mit RabbitListener aus Queue empfangen und ins log schreiben.
+    //TODO lesson 3.1: Receive String from queue.
 
-    // TODO Aufgabe 3.2: DeliveryDTO aus DirectExchange empfangen, Beer aus DeliverDTO aus der Datenbank laden und aktuellen Stock um Anzahl der Lieferung erhöhen
+    // TODO lesson 3.2: Receive DeliveryDTO from DirectExchange, load contained Beer from db and add the amount of beer from the delivery to the stock
 
-    // TODO Aufgabe 3.3: BeerItem aus FanoutExchange empfangen, Beer aus der Datenbank löschen
+    // TODO lesson 3.3: receive BeerItem from FanoutExchange eand delete the beer from db
 
 }

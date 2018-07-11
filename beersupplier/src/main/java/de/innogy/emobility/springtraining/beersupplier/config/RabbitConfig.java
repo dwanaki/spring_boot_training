@@ -1,12 +1,12 @@
 package de.innogy.emobility.springtraining.beersupplier.config;
 
-//TODO Aufgabe 3.1: Als Config Bean annotieren und Scheduling aktivieren
+//TODO lesson 3.1: make it a config bean
 public class RabbitConfig {
 
-    //TODO: Aufgabe 3.1: Queuenamen aus application.properties laden und Queue-Bean anlegen, Namen aus properties verwenden
+    //TODO: lesson 3.1: load queue-name from application.properties and setup the queue
 
-    //TODO: Aufgabe 3.2: RabbitTemplate als Bean anlegen und Jackson als Message Converter setzen, DirectExchange als Bean anlegen
+    //TODO: lesson 3.2: setup RabbitTemplate and use Jackson as message converter, setup directexchange
 
-    //TODO: Aufgabe 3.3: FanoutExchange als Bean anlegen
+    //TODO: lesson 3.3: setup FanoutExchange
 
 }

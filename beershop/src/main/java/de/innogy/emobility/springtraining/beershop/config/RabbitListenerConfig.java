@@ -3,23 +3,23 @@ package de.innogy.emobility.springtraining.beershop.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-//TODO Aufgabe 3.2: Als Config Bean annotieren und RabbitListenerConfigurer implementieren
+//TODO lesson 3.2: make the class a config bean and implement RabbitListenerConfigurer
 public class RabbitListenerConfig {
 
     private ObjectMapper objectMapper;
 
-    // TODO Aufgabe 3.2 DirectExchangeNamen, DirectQueue-Namen und RoutingKey aus properties laden.
+    // TODO lesson 3.2 load DirectExchange-Name, DirectQueue-Namen und RoutingKey from properties
 
-    // TODO Aufgabe 3.3 FanoutExchangeNamen und FanoutQueue-Namen aus properties laden.
+    // TODO lesson 3.3 load FanoutExchange-Name AND FanoutQueue-Namen from properties
 
     @Autowired
     public RabbitListenerConfig(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
-    // TODO Aufgabe 3.2 DirectExchange, DirectQueue und Binding für Queue und Exchange als Beans anlegen
+    // TODO lesson 3.2 setup DirectExchange, DirectQueue and Binding between Queue and Exchange
 
-    // TODO Aufgabe 3.3 FanoutExchange, FanoutQueue und Binding für Queue und Exchange als Beans anlegen
+    // TODO lesson 3.3 setup FanoutExchange, FanoutQueue and Binding between Queue and Exchange
 
 
 //    /**
