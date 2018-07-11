@@ -62,6 +62,7 @@ public class SupplyService {
         BeerItem beerItem = beerItemRepository.findById(orderDTO.getBeerName()).orElse(null);
         if (beerItem != null && beerItem.getStock() >= orderDTO.getQuantity()) {
             beerItem.setStock(beerItem.getStock() - orderDTO.getQuantity());
+            beerItemRepository.save(beerItem);
             return new DeliveryDTO(orderDTO.getQuantity(), beerItem);
         } else {
             throw new OutOfBeerException(
