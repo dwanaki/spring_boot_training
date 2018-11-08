@@ -18,9 +18,6 @@ public class Beer {
     private String name;
 
     @NotNull
-    private Integer bottleSizeInMl;
-
-    @NotNull
     private Double alcoholVol;
 
 }
