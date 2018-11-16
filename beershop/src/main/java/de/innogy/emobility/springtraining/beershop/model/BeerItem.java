@@ -1,6 +1,5 @@
 package de.innogy.emobility.springtraining.beershop.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,15 +23,10 @@ public class BeerItem {
     private String name;
 
     @NotNull
-    @Column(name="BOTTLE_SIZE_ML")
-    private Integer bottleSizeInMl;
-
-    @NotNull
     @Column(name="ALCOHOL_VOL")
     private Double alcoholVol;
 
     @NotNull
-    @JsonIgnore
     @Column(name="STOCK")
     private Integer stock;
 
