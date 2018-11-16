@@ -25,7 +25,7 @@ public class OrderController {
     public void placeOrder(@Valid @RequestBody OrderDTO order) throws NotInStockException {
         String beerName = order.getBeerName();
         Beer beer = beerService.provideBeerByName(beerName);
-        rabbitService.sendDeliveryToDirectExchange(new DeliveryDTO(order.getQuantity(), beer));
+        rabbitService.sendDelivery(new DeliveryDTO(order.getQuantity(), beer));
     }
 
 }
