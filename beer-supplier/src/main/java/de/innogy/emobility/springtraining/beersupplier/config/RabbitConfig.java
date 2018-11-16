@@ -19,15 +19,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class RabbitConfig {
 
-    private ObjectMapper objectMapper;
-
     @Value("${queue.order}")
     private String orderQueueName;
-
-    @Autowired
-    public RabbitConfig(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
 
     /**
      * Create a Bean for RabbitTemplate to be able to autowire it.
@@ -73,7 +66,7 @@ public class RabbitConfig {
      */
     @Bean
     public Jackson2JsonMessageConverter amqpJsonConverter() {
-        return new Jackson2JsonMessageConverter(objectMapper);
+        return new Jackson2JsonMessageConverter();
     }
 
 }
