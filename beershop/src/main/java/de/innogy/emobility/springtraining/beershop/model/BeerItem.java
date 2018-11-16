@@ -1,6 +1,5 @@
 package de.innogy.emobility.springtraining.beershop.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,6 @@ public class BeerItem {
     private Double alcoholVol;
 
     @NotNull
-    @JsonIgnore
     private Integer stock;
 
 }

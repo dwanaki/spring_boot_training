@@ -22,10 +22,4 @@ public class SupplierAdvice {
         supplyService.fillSupplyWith(e.getBeerItem());
     }
 
-    @ExceptionHandler(SorryDudeAlcoholicOnlyException.class)
-    @ResponseStatus(code=HttpStatus.I_AM_A_TEAPOT, reason="I am no teapot!")
-    public void handleSorryAlcoholicOnlyDudeException(SorryDudeAlcoholicOnlyException e) {
-        //only send error code to the client
-    }
-
 }

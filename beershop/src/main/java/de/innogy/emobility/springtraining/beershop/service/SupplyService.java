@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class SupplyService {
@@ -21,7 +23,6 @@ public class SupplyService {
     @Value("${beer-producer.order.url}")
     private String beerProducerOrderUrl;
 
-    @Value("${beer-producer.supply.all.url}")
     private String beerProducerBeersUrl;
 
     @Value("${clientName}")
@@ -29,19 +30,21 @@ public class SupplyService {
 
     private Map<String, BeerItem> beerItemList;
 
-    @PostConstruct
-    public void init() {
+
+    @Autowired
+    public SupplyService(RestTemplate restTemplate, @Value("${beer-producer.supply.all.url}") String beerProducerBeersUrl) {
+        this.restTemplate = restTemplate;
+        this.beerProducerBeersUrl = beerProducerBeersUrl;
+        init();
+    }
+
+    private void init() {
         beerItemList = new HashMap<>();
         BeerItem[] beerItems = restTemplate.getForObject(beerProducerBeersUrl, BeerItem[].class);
-        for (BeerItem beerItem : Arrays.asList(beerItems)) {
+        for (BeerItem beerItem : beerItems) {
             beerItem.setStock(100);
             beerItemList.put(beerItem.getName(), beerItem);
         }
-    }
-
-    @Autowired
-    public SupplyService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
     }
 
     public void fillSupplyWith(BeerItem beerItem) {
