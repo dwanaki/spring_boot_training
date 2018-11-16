@@ -23,8 +23,8 @@ public class RabbitService {
 
     @RabbitListener(queues = "queue.order")
     private void receiveDelivery(DeliveryDTO deliveredBeer) {
-        log.info("Received order: Beer: {}", deliveredBeer.getBeer().getName());
         if (deliveredBeer != null) {
+            log.info("Received order: Beer: {}", deliveredBeer.getBeer().getName());
             Optional<BeerItem> result = beerItemRepository.findById(deliveredBeer.getBeer().getName());
             if (result.isPresent()) {
                 BeerItem currentBeer = result.get();

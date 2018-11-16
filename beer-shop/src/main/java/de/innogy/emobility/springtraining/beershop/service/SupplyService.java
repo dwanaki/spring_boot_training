@@ -53,9 +53,10 @@ public class SupplyService {
 
     public void fillSupplyWith(BeerItem beerItem) {
         storeOutgoingOrder(beerItem.getName(), 1000);
-        DeliveryDTO order = restTemplate.postForObject(beerProducerOrderUrl, new OrderDTO(clientName, 1000, beerItem.getName()), DeliveryDTO.class);
-        beerItem.setStock(beerItem.getStock() + order.getQuantity());
-        beerItemRepository.save(beerItem);
+        restTemplate.postForObject(beerProducerOrderUrl, new OrderDTO(clientName, 1000, beerItem.getName()), DeliveryDTO.class);
+        //TODO: Remove this is handled via RabbitService
+        //beerItem.setStock(beerItem.getStock() + order.getQuantity());
+        //beerItemRepository.save(beerItem);
     }
 
     public DeliveryDTO orderBeer(OrderDTO orderDTO) throws OutOfBeerException {
