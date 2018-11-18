@@ -18,7 +18,6 @@ public class SupplierAdvice {
     @ExceptionHandler(OutOfBeerException.class)
     @ResponseStatus(code = HttpStatus.GONE, reason = "Bier ist alle")
     public void handleOutOfBeerException(OutOfBeerException e) {
-        //TODO: write your JDBC statement(s) here!
         supplyService.fillSupplyWith(e.getBeerItem());
     }
 
