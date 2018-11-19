@@ -29,5 +29,10 @@ public class BeerController {
     public List<BeerItem> getMenu() {
         return supplyService.provideMenu();
     }
-
+    
+    @GetMapping("/admin/supply")
+    public List<BeerItem> supply() {
+        supplyService.refillAllStocks();
+        return supplyService.provideMenu();
+    }
 }

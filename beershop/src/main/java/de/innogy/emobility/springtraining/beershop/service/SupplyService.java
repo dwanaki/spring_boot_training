@@ -23,9 +23,9 @@ public class SupplyService {
     private String beerProducerOrderUrl;
     @Value("${beer-producer.supply.all.url}")
     private String beerProducerBeersUrl;
-    
     @Value("${clientName}")
     private String clientName;
+    
     private InitialStock initialStock;
     private Map<String, BeerItem> beerItemList;
     
@@ -36,13 +36,12 @@ public class SupplyService {
     }
     
     @PostConstruct
-    private void init() {
+    public void init() {
         beerItemList = new HashMap<>();
         initialStock.beers.forEach(beerItem -> beerItemList.put(beerItem.getName(),beerItem ));
-        
     }
     
-    private void refillAllStocks() {
+    public void refillAllStocks() {
         BeerItem[] beerItems = restTemplate.getForObject(beerProducerBeersUrl, BeerItem[].class);
         for (BeerItem beerItem : beerItems) {
             beerItem.setStock(100);
