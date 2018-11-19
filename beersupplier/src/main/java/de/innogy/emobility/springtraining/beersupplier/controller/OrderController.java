@@ -16,7 +16,7 @@ public class OrderController {
     @Autowired
     private BeerService beerService;
     
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     public DeliveryDTO placeOrder(@Valid @RequestBody OrderDTO order) throws NotInStockException {
         String beerName = order.getBeerName();
         Beer beer = beerService.provideBeerByName(beerName);

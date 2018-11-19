@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-//TODO: make this class your Entity!
 public class Beer {
 
     @NotNull
