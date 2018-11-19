@@ -1,7 +1,6 @@
 package de.innogy.emobility.springtraining.beershop.controller;
 
 import de.innogy.emobility.springtraining.beershop.exception.OutOfBeerException;
-import de.innogy.emobility.springtraining.beershop.exception.SorryDudeAlcoholicOnlyException;
 import de.innogy.emobility.springtraining.beershop.service.SupplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

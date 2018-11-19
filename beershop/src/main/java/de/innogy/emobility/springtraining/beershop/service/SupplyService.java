@@ -38,7 +38,7 @@ public class SupplyService {
     @PostConstruct
     public void init() {
         beerItemList = new HashMap<>();
-        initialStock.beers.forEach(beerItem -> beerItemList.put(beerItem.getName(),beerItem ));
+        initialStock.beers.forEach(beerItem -> beerItemList.put(beerItem.getName(), beerItem));
     }
     
     public void refillAllStocks() {
@@ -58,6 +58,10 @@ public class SupplyService {
     }
     
     public DeliveryDTO orderBeer(OrderDTO orderDTO) throws OutOfBeerException {
+        if (!beerItemList.containsKey(orderDTO.getBeerName())) {
+            throw new OutOfBeerException(
+                    "No such Beer: " + orderDTO.getBeerName(), new BeerItem(orderDTO.getBeerName(), 0.0, orderDTO.getQuantity()));
+        }
         BeerItem beerItem = beerItemList.get(orderDTO.getBeerName());
         if (beerItem.getStock() >= orderDTO.getQuantity()) {
             beerItem.setStock(beerItem.getStock() - orderDTO.getQuantity());
