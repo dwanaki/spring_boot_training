@@ -19,7 +19,6 @@ public class BeerService {
 
     @PostConstruct
     public void init() {
-        availableBeer = new HashMap<>();
         availableBeer.put("Snake Venom",
                           Beer.builder().alcoholVol(67.5).name("Snake Venom").build());
         availableBeer.put("Sink the Bismarck!",

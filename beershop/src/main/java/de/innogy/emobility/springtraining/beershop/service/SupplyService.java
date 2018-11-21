@@ -4,6 +4,7 @@ import de.innogy.emobility.springtraining.beershop.controller.DeliveryDTO;
 import de.innogy.emobility.springtraining.beershop.controller.OrderDTO;
 import de.innogy.emobility.springtraining.beershop.exception.OutOfBeerException;
 import de.innogy.emobility.springtraining.beershop.model.BeerItem;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
