@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -40,14 +40,18 @@ public class SupplyService {
 
     public void fillSupplyWith(BeerItem beerItem) {
         storeOutgoingOrder(beerItem.getName(), 1000);
-        DeliveryDto delivery = restTemplate.postForObject(beerProducerOrderUrl, new OrderDto(clientName, 1000, beerItem.getName()), DeliveryDto.class);
-        if (delivery != null && delivery.getBeer() != null && delivery.getQuantity() > 0) {
-            log.info("Received delivery of: {} quantity: {} ", delivery.getBeer().getName(), delivery.getQuantity());
-            // TODO: Lesson 3.2 To be handled via RabbitService
+        try {
+            DeliveryDto delivery = restTemplate.postForObject(beerProducerOrderUrl, new OrderDto(clientName, 1000, beerItem.getName()), DeliveryDto.class);
+            if (delivery != null && delivery.getBeer() != null && delivery.getQuantity() > 0) {
+                log.info("Received delivery of: {} quantity: {} ", delivery.getBeer().getName(), delivery.getQuantity());
+                // TODO: Lesson 3.2 To be handled via RabbitService
 //            beerItem.setStock(beerItem.getStock() + delivery.getQuantity());
 //            beerItemRepository.save(beerItem);
-        } else {
-            log.warn("No delivery received, beer: {} still out of stock", beerItem.getName());
+            } else {
+                log.warn("No delivery received, beer: {} still out of stock", beerItem.getName());
+            }
+        } catch (HttpClientErrorException e) {
+            log.error("Could not order beer : {}, reponse code {}, error message: {}", beerItem.getName(), e.getRawStatusCode(), e.getMessage());
         }
     }
 
@@ -58,8 +62,9 @@ public class SupplyService {
             beerItemRepository.save(beerItem);
             return new DeliveryDto(orderDTO.getQuantity(), beerItem);
         } else {
+            BeerItem beerToOrder = beerItem != null ? beerItem : BeerItem.builder().name(orderDTO.getBeerName()).build();
             throw new OutOfBeerException(
-                "Not enough quantity of Beer " + orderDTO.getBeerName() + " only " + (beerItem != null ? beerItem.getStock() : 0) + " left", beerItem);
+                "Not enough quantity of Beer " + orderDTO.getBeerName() + " only " + (beerItem != null ? beerItem.getStock() : 0) + " left", beerToOrder);
         }
     }
 
