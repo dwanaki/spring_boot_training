@@ -20,7 +20,7 @@ public class BeerController {
     }
 
     @PostMapping("/order")
-    public DeliveryDTO orderBeer(@Valid @RequestBody OrderDTO orderDTO)
+    public DeliveryDto orderBeer(@Valid @RequestBody OrderDto orderDTO)
             throws OutOfBeerException {
         return supplyService.orderBeer(orderDTO);
     }
