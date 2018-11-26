@@ -1,28 +1,28 @@
 package de.innogy.emobility.springtraining.beershop.service;
 
-import de.innogy.emobility.springtraining.beershop.controller.DeliveryDTO;
-import de.innogy.emobility.springtraining.beershop.controller.OrderDTO;
+import de.innogy.emobility.springtraining.beershop.controller.DeliveryDto;
+import de.innogy.emobility.springtraining.beershop.controller.OrderDto;
 import de.innogy.emobility.springtraining.beershop.exception.OutOfBeerException;
 import de.innogy.emobility.springtraining.beershop.model.BeerItem;
 import de.innogy.emobility.springtraining.beershop.repository.BeerItemRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 @Service
 public class SupplyService {
 
     private RestTemplate restTemplate;
 
-    @Value("${beer-producer.order.url}")
+    @Value("${beersupplier.order.url}")
     private String beerProducerOrderUrl;
-
-    private String beerProducerBeersUrl;
 
     @Value("${clientName}")
     private String clientName;
@@ -32,37 +32,31 @@ public class SupplyService {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public SupplyService(RestTemplate restTemplate, BeerItemRepository beerItemRepository, JdbcTemplate jdbcTemplate,
-                         @Value("${beer-producer.supply.all.url}") String beerProducerBeersUrl) {
+    public SupplyService(RestTemplate restTemplate, BeerItemRepository beerItemRepository, JdbcTemplate jdbcTemplate) {
         this.restTemplate = restTemplate;
         this.beerItemRepository = beerItemRepository;
         this.jdbcTemplate = jdbcTemplate;
-        this.beerProducerBeersUrl = beerProducerBeersUrl;
-        init();
-    }
-
-    private void init() {
-        BeerItem[] beerItems = restTemplate.getForObject(beerProducerBeersUrl, BeerItem[].class);
-        for (BeerItem beerItem : beerItems) {
-            beerItem.setStock(100);
-        }
-        beerItemRepository.saveAll(Arrays.asList(beerItems));
     }
 
     public void fillSupplyWith(BeerItem beerItem) {
         storeOutgoingOrder(beerItem.getName(), 1000);
-        restTemplate.postForObject(beerProducerOrderUrl, new OrderDTO(clientName, 1000, beerItem.getName()), DeliveryDTO.class);
+        try {
+            restTemplate.postForObject(beerProducerOrderUrl, new OrderDto(clientName, 1000, beerItem.getName()), DeliveryDto.class);
+        } catch (HttpClientErrorException e) {
+            log.error("Could not order beer : {}, reponse code {}, error message: {}", beerItem.getName(), e.getRawStatusCode(), e.getMessage());
+        }
     }
 
-    public DeliveryDTO orderBeer(OrderDTO orderDTO) throws OutOfBeerException {
+    public DeliveryDto orderBeer(OrderDto orderDTO) throws OutOfBeerException {
         BeerItem beerItem = beerItemRepository.findById(orderDTO.getBeerName()).orElse(null);
         if (beerItem != null && beerItem.getStock() >= orderDTO.getQuantity()) {
             beerItem.setStock(beerItem.getStock() - orderDTO.getQuantity());
             beerItemRepository.save(beerItem);
-            return new DeliveryDTO(orderDTO.getQuantity(), beerItem);
+            return new DeliveryDto(orderDTO.getQuantity(), beerItem);
         } else {
+            BeerItem beerToOrder = beerItem != null ? beerItem : BeerItem.builder().name(orderDTO.getBeerName()).build();
             throw new OutOfBeerException(
-                "Not enough quantity of Beer " + orderDTO.getBeerName() + " only " + (beerItem != null ? beerItem.getStock() : 0) + " left", beerItem);
+                "Not enough quantity of Beer " + orderDTO.getBeerName() + " only " + (beerItem != null ? beerItem.getStock() : 0) + " left", beerToOrder);
         }
     }
 

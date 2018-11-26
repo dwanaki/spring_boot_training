@@ -65,7 +65,7 @@ public class BeerService {
         } else {
             beerRepository.deleteById(beerName);
         }
-        rabbitService.sendRemovedBeerToFanout(removedBeer.getName());
+        rabbitService.sendRemovedBeerToFanout(removedBeer);
         log.info(beerName + " was removed from stock.");
     }
 

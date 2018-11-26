@@ -15,17 +15,21 @@ import javax.validation.Valid;
 @RestController("/order")
 public class OrderController {
 
-    @Autowired
     private BeerService beerService;
 
-    @Autowired
     private RabbitService rabbitService;
 
+    @Autowired
+    public OrderController(BeerService beerService, RabbitService rabbitService) {
+        this.beerService = beerService;
+        this.rabbitService = rabbitService;
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void placeOrder(@Valid @RequestBody OrderDTO order) throws NotInStockException {
+    public void placeOrder(@Valid @RequestBody OrderDto order) throws NotInStockException {
         String beerName = order.getBeerName();
         Beer beer = beerService.provideBeerByName(beerName);
-        rabbitService.sendDelivery(new DeliveryDTO(order.getQuantity(), beer));
+        rabbitService.sendDelivery(new DeliveryDto(order.getQuantity(), beer));
     }
 
 }
