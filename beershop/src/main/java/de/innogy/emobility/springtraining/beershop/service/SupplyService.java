@@ -22,7 +22,7 @@ public class SupplyService {
 
     private RestTemplate restTemplate;
 
-    @Value("${beer-producer.order.url}")
+    @Value("${beersupplier.order.url}")
     private String beerProducerOrderUrl;
 
     @Value("${clientName}")
