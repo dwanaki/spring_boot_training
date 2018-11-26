@@ -56,7 +56,7 @@ public class SupplyService {
 
     public DeliveryDto orderBeer(OrderDto orderDTO) throws OutOfBeerException {
         BeerItem beerItem = beerItemList.get(orderDTO.getBeerName());
-        if (beerItem.getStock() >= orderDTO.getQuantity()) {
+        if (beerItem != null && beerItem.getStock() >= orderDTO.getQuantity()) {
             beerItem.setStock(beerItem.getStock() - orderDTO.getQuantity());
             return new DeliveryDto(orderDTO.getQuantity(), beerItem);
         } else {
