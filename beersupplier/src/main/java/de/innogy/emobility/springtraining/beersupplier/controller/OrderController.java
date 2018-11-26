@@ -17,10 +17,10 @@ public class OrderController {
     private BeerService beerService;
     
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public DeliveryDTO placeOrder(@Valid @RequestBody OrderDTO order) throws NotInStockException {
+    public DeliveryDto placeOrder(@Valid @RequestBody OrderDto order) throws NotInStockException {
         String beerName = order.getBeerName();
         Beer beer = beerService.provideBeerByName(beerName);
-        return new DeliveryDTO(order.getQuantity(), beer);
+        return new DeliveryDto(order.getQuantity(), beer);
     }
 
 }
